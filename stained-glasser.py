@@ -1,7 +1,10 @@
 import os
 import datetime
+
 import utils
+import img_utils
 import stained_glass_utils
+
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -17,8 +20,11 @@ output_folder_path = utils.create_output_folder(logger, today)
 vortices = stained_glass_utils.create_vortices(logger)
 triangles = []
 
+palette = img_utils.create_palette(logger)
+# logger.info(f'palette: {palette}')
+
 for i, vortex in enumerate(vortices):
     logger.info(f'iteration: {i}')
     triangles = stained_glass_utils.get_triangles(logger, vortex, triangles)
 
-    stained_glass_utils.draw_triangles(logger, i, triangles, output_folder_path)
+    img_utils.draw_triangles(logger, i, triangles, output_folder_path, palette)

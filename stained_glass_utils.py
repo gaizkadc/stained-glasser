@@ -1,8 +1,6 @@
 import os
 import random
 
-from PIL import ImageDraw, Image
-
 from shapely.geometry import Point
 from shapely.geometry import Polygon
 
@@ -10,7 +8,7 @@ from shapely.geometry import Polygon
 def create_vortices(logger):
     logger.info('creating vortices')
 
-    number_vortices = random.randint(4, 8)
+    number_vortices = random.randint(2, 5)
     logger.info('number of vortices: ' + str(number_vortices))
 
     vortices = []
@@ -102,40 +100,3 @@ def print_triangles(logger, triangles):
 
     for i, triangle in enumerate(triangles):
         logger.info(f'triangle {i}: {triangle}')
-
-
-def draw_triangles(logger, i, triangles, output_folder_path):
-    logger.info('drawing triangles')
-
-    x = int(os.getenv('SG_WIDTH'))
-    y = int(os.getenv('SG_HEIGHT'))
-    img_size = (x, y)
-
-    img_name = f'phase{i}'
-
-    resulting_img_path = output_folder_path + '/' + img_name + '.png'
-
-    img = Image.new('RGB', img_size)
-
-    for triange in triangles:
-        draw_single_triangle(logger, img, triange)
-
-    img.save(resulting_img_path)
-
-    logger.info(f'image created at {resulting_img_path}')
-    return resulting_img_path
-
-
-def draw_single_triangle(logger, img, triangle):
-    logger.info('drawing single triangle')
-
-    draw = ImageDraw.Draw(img)
-
-    # draw.polygon(triangle.exterior.coords, fill=get_random_color(logger), outline='white')
-    draw.polygon(triangle.exterior.coords, fill=get_random_color(logger))
-
-
-def get_random_color(logger):
-    logger.info('getting random color')
-
-    return random.randint(0, 256), random.randint(0, 256), random.randint(0, 256)
