@@ -17,8 +17,8 @@ def create_vortices(logger):
     height = int(os.getenv('SG_HEIGHT'))
 
     for i in range(number_vortices):
-        vort_x = math.floor(random.randrange(0.15 * width,  0.85 * width))
-        vort_y = math.floor(random.randrange(0.15 * height,  0.85 * height))
+        vort_x = random.randint(math.floor(0.15 * width),  math.floor(0.85 * width))
+        vort_y = random.randint(math.floor(0.15 * height), math.floor(0.85 * height))
 
         vortices.append(Point(vort_x, vort_y))
 
