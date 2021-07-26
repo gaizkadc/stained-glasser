@@ -1,5 +1,6 @@
 import os
 import random
+import math
 
 from shapely.geometry import Point
 from shapely.geometry import Polygon
@@ -9,17 +10,19 @@ def create_vortices(logger):
     logger.info('creating vortices')
 
     number_vortices = random.randint(2, 5)
-    logger.info('number of vortices: ' + str(number_vortices))
+    logger.info(f'number of vortices: {number_vortices}')
 
     vortices = []
+    width = int(os.getenv('SG_WIDTH'))
+    height = int(os.getenv('SG_HEIGHT'))
 
     for i in range(number_vortices):
-        vort_x = random.randint(0, int(os.getenv('SG_WIDTH')))
-        vort_y = random.randint(0, int(os.getenv('SG_HEIGHT')))
+        vort_x = math.floor(random.randrange(0.15 * width,  0.85 * width))
+        vort_y = math.floor(random.randrange(0.15 * height,  0.85 * height))
 
         vortices.append(Point(vort_x, vort_y))
 
-        logger.info(f'vortex {str(i)}: [{str(vort_x)}, {str(vort_y)}]')
+        logger.info(f'vortex {i}: [{vort_x}, {vort_y}]')
 
     return vortices
 
@@ -50,8 +53,6 @@ def get_triangles_in_surface(logger, vortex, surface, triangles):
     y = int(os.getenv('SG_HEIGHT'))
 
     if len(triangles) == 0:
-        logger.info('first time here')
-
         new_triangle_a = Polygon([Point(0, 0), vortex, Point(x, 0)])
         triangles.append(new_triangle_a)
 
@@ -65,8 +66,6 @@ def get_triangles_in_surface(logger, vortex, surface, triangles):
         triangles.append(new_triangle_d)
 
     else:
-        logger.info('you know the drill')
-
         surface_list = list(surface.exterior.coords)
 
         new_triangle_a = Polygon([vortex, surface_list[1], surface_list[2]])

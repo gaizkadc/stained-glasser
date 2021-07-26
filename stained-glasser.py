@@ -21,7 +21,7 @@ vortices = stained_glass_utils.create_vortices(logger)
 triangles = []
 
 palette = img_utils.create_palette(logger)
-# logger.info(f'palette: {palette}')
+logger.info(f'palette: {palette}')
 
 for i, vortex in enumerate(vortices):
     logger.info(f'iteration: {i}')
